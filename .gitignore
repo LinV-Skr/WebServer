@@ -1,1 +1,5 @@
-./.vscode
+#  不上传文件目录
+.vscode/*
+
+#  不上传gitignore文件本身
+.gitignore
