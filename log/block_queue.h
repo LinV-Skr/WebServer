@@ -134,7 +134,7 @@ public:
         //  防止被虚假唤醒
         while(m_size <= 0)
         {
-            if(!m_cond.wait(&m_mutex))
+            if(!m_cond.wait(&m_mutex.m_mutex))
             {
                 m_mutex.unlock();
                 return false;
@@ -151,14 +151,14 @@ public:
     bool Pop(T & item, int ms_timeout)
     {
         m_mutex.lock();
-        struct timespec ts;
-        struct timeval tv;
+        struct timespec ts = {0, 0};
+        struct timeval tv = {0, 0};
         gettimeofday(&tv, NULL);
         if(m_size <= 0)
         {
             ts.tv_sec = tv.tv_sec + ms_timeout / 1000;
             ts.tv_nsec = (ms_timeout % 1000) * 1000;
-            if(!m_cond.time_wait(&m_mutex, ts))
+            if(!m_cond.time_wait(&m_mutex.m_mutex, ts))
             {
                 m_mutex.unlock();
                 return false;

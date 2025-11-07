@@ -16,7 +16,7 @@ class WebServer
 {
 public:
     WebServer();
-    ~WebServer(){};
+    ~WebServer();
 
 public:
     void Init(int port, string user, string passwd, string databaseName, int logWrite, 

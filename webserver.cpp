@@ -16,11 +16,15 @@ WebServer::WebServer()
     m_users_timer = new client_data[MAX_FD];
 }
 
+//  指针释放后，指控防止垂悬，防止双重释放
 WebServer::~WebServer()
 {
     delete [] m_users;
-    delete [] m_root_path;
+    m_users = nullptr;
+    free(m_root_path);
+    m_root_path = nullptr;
     delete [] m_users_timer;
+    m_users_timer = nullptr;
 }
 
 void WebServer::Init(int port, string user, string passwd, string databaseName, int logWrite, 
@@ -46,6 +50,6 @@ void WebServer::LogWrite()
     {
         //  1  日志异步； 0  日志同步
         if(1 == m_logWrite)
-            Log::GetInstance().Init();
+            Log::GetInstance().Init("./ServerLog", m_close_log, 2000, 800000, 800);
     }
 }

@@ -2,6 +2,7 @@
 #define LOG_H
 
 #include <string>
+#include <pthread.h>
 
 #include "./block_queue.h"
 
@@ -9,6 +10,10 @@ using namespace std;
 
 class Log
 {
+private:
+    Log();
+    ~Log();
+
 public:
     //  全局访问点
     static Log & GetInstance()
@@ -21,12 +26,15 @@ public:
     Log(const Log &) = delete;
     Log& operator=(const Log &) = delete;
 
+    //  异步线程回调函数
+    void * Flush_Log_Thread(void * arg)
+    {
+        return nullptr;
+    }
+
     //  初始化函数
     bool Init(const char * file_name, int close_log, int log_buff_size = 8192,
                 int split_lines = 5000000, int max_queue_size = 0);
-private:
-    Log();
-    ~Log();
 
 private:
     //  日志行数记录
