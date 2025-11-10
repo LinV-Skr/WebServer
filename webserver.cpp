@@ -51,5 +51,13 @@ void WebServer::LogWrite()
         //  1  日志异步； 0  日志同步
         if(1 == m_logWrite)
             Log::GetInstance().Init("./ServerLog", m_close_log, 2000, 800000, 800);
+        else
+            Log::GetInstance().Init("./ServerLog", m_close_log, 2000, 800000, 0);
     }
+}
+
+void WebServer::SqlPool()
+{
+    //  初始化数据库链接池
+    
 }

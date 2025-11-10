@@ -19,4 +19,7 @@ int main(int argc, char * argv[])
     
     //  日志
     server.LogWrite();
+
+    //  数据库
+    
 }

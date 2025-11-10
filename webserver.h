@@ -22,6 +22,7 @@ public:
     void Init(int port, string user, string passwd, string databaseName, int logWrite, 
                 int optLinger, int trigMode, int sqlNum, int threadNum, int closeLog, int actorModel);
     void LogWrite();
+    void SqlPool();
 
 public:
     //  端口号

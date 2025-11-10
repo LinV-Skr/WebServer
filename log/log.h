@@ -85,6 +85,9 @@ private:
 
     //  日志最大行数
     int m_split_lines;
+
+    //  日志按天分类，记录当前是哪一天
+    int m_today;
 };
 
 #endif

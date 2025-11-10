@@ -49,16 +49,18 @@ bool Log::Init(const char * file_name, int close_log, int log_buf_size, int spli
     memset(m_log_buf, '\0', m_log_buff_size);
     m_split_lines = split_lines;
 
+    //  将./ServeLog类型的文件目录转换为带日期的
     time_t t_time = time(NULL);
     struct tm t_tm;
     //  localtime函数存在线程安全问题
     localtime_r(&t_time, &t_tm);
+    m_today = t_tm.tm_mday;
 
     const char * p_file_name = strrchr(file_name, '/');
-    char log_file_name[256] = {0};
+    char log_full_name[256] = {0};
     if(NULL == p_file_name)
     {
-        snprintf(log_file_name, sizeof(log_file_name), "%d_%02d_%02d_%s", t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
+        snprintf(log_full_name, sizeof(log_full_name), "%d_%02d_%02d_%s", t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
     }
     else
     {
@@ -66,7 +68,11 @@ bool Log::Init(const char * file_name, int close_log, int log_buf_size, int spli
         //  多加1是因为拷贝'\0'
         const int dir_name_len = p_file_name + 1 - file_name + 1;
         snprintf(m_dir_name, dir_name_len, "%s", file_name);
+        snprintf(log_full_name, sizeof(log_full_name), "%s_%d_%02d_%02d_%s", m_dir_name, t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
     }
+    m_fp = fopen(log_full_name, "a");
+    if(NULL == m_fp)
+        return false;
 
     return true;
 }
