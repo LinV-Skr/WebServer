@@ -53,6 +53,12 @@ private:
     }
 
 private:
+    //  日志目录名
+    char m_dir_name[256];
+
+    //  日志文件名
+    char m_log_name[256];
+
     //  日志行数记录
     long long m_count;
 

@@ -3,9 +3,18 @@
 Log::Log()
 {
     m_count = 0;
+    m_close_log = 0;
+    m_log_buff_size = 0;
+    m_split_lines = 0;
+
+    memset(m_log_name, 0, sizeof(m_log_name));
+    memset(m_dir_name, 0, sizeof(m_dir_name));
+
     m_is_async = false;
+
     m_block_queue = nullptr;
     m_fp = nullptr;
+    m_log_buf = nullptr;
 }
 
 Log::~Log()
@@ -49,7 +58,14 @@ bool Log::Init(const char * file_name, int close_log, int log_buf_size, int spli
     char log_file_name[256] = {0};
     if(NULL == p_file_name)
     {
-        snprintf(log_file_name, 255, "%d_%2d_%2d_%s", t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
+        snprintf(log_file_name, sizeof(log_file_name), "%d_%02d_%02d_%s", t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
+    }
+    else
+    {
+        snprintf(m_log_name, sizeof(m_log_name), "%s", p_file_name + 1);
+        //  多加1是因为拷贝'\0'
+        const int dir_name_len = p_file_name + 1 - file_name + 1;
+        snprintf(m_dir_name, dir_name_len, "%s", file_name);
     }
 
     return true;
