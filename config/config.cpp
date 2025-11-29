@@ -3,4 +3,5 @@
 Config Config::LoadFromFile(const string & config_path)
 {
     Config cfg;
+    return cfg;
 }
