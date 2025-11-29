@@ -1,0 +1,6 @@
+{   
+    "port" : "9007",
+    "db_name" : "webserver",
+    "db_userName" : "root",
+    "db_userPasswd" : "root"
+}

@@ -4,13 +4,17 @@ WebServer::WebServer()
 {
     m_users = new http_conn[MAX_FD];
     
-    //  root文件夹路径
-    char server_path[200];
-    getcwd(server_path, 200);
-    char root_path[6] = "\root";
-    m_root_path = (char *)malloc(strlen(server_path) + strlen(root_path) + 1);
-    strcpy(m_root_path, server_path);
-    strcat(m_root_path, root_path);
+    //  在当前工作路径下，组装root路径
+    //  获取当前工作路径
+    size_t size = 256;
+    vector<char> buffer(size);
+    if(getcwd(buffer.data(), size) == NULL)
+    {
+        perror("getcwd error");
+        exit(-1);
+    }
+    string work_path(buffer.data());
+    m_root_path = work_path + "/root";
 
     //  定时器
     m_users_timer = new client_data[MAX_FD];
@@ -21,7 +25,6 @@ WebServer::~WebServer()
 {
     delete [] m_users;
     m_users = nullptr;
-    free(m_root_path);
     m_root_path = nullptr;
     delete [] m_users_timer;
     m_users_timer = nullptr;

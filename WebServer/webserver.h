@@ -1,13 +1,14 @@
 #ifndef WEBSERVER_H
 #define WEBSERVER_H
 
-#include "./http/http_conn.h"
-#include "./timer/lst_timer.h"
-#include "./log/log.h"
+#include<unistd.h>
+#include<stdlib.h>
+#include<string.h>
+#include<vector>
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../http/http_conn.h"
+#include "../timer/lst_timer.h"
+#include "../log/log.h"
 
 //  最大文件描述符
 const int MAX_FD = 65535;
@@ -58,7 +59,7 @@ public:
     http_conn * m_users;
 
     //  webserver的root工作目录
-    char * m_root_path;
+    string m_root_path;
 
     //  定时器相关
     client_data * m_users_timer;
