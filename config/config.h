@@ -1,9 +1,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <string>
-#include <unistd.h>
-#include <stdlib.h>
+#include<string>
+#include<unistd.h>
+#include<stdlib.h>
+#include<fstream>
+#include<stdexcept>
 #include "./config_type.h"
 
 using namespace std;
@@ -17,6 +19,7 @@ public:
 private:
     Config() = default;
     // json格式解析
+    bool ParseFromJson(const string & path);
 
     //  端口号
     int m_port = 9006;
