@@ -1,11 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include<string>
-#include<unistd.h>
-#include<stdlib.h>
 #include<fstream>
 #include<stdexcept>
+#include<string>
 #include "./config_type.h"
 
 using namespace std;
