@@ -5,7 +5,11 @@
     "ListenTrigMode" : "LT",
     "ConnTrigMode" : "LT",
     "CloseMode" : "Immediate",
-    "db_name" : "webserver",
-    "db_userName" : "root",
-    "db_userPasswd" : "root"
+    "SqlThreadNum" : 8,
+    "ThreadNum" : 8,
+    "LogStatus" : "Open",
+    "ActorModel" : "ProActor",
+    "DataBaseName" : "WebServer",
+    "DataBaseUserName" : "root",
+    "DataBaseUserPwd" : "root"
 }

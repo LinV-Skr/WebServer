@@ -16,8 +16,10 @@ public:
 
 private:
     Config() = default;
-    // json格式解析
+    //  json格式解析
     bool ParseFromJson(const string & path);
+    //  json数据检验
+    void Validate();
 
     //  端口号
     int m_port = 9006;
@@ -36,7 +38,7 @@ private:
     //  线程池内线程数量
     int m_threadNum = 8;
     //  是否关闭日志，0-不关闭
-    LogStatus m_closeLog = LogStatus::Open;
+    LogStatus m_logStatus = LogStatus::Open;
     //  并发模型选择，0-ProActor
     ActorModel m_actorModel = ActorModel::ProActor;
     //  数据库名

@@ -9,9 +9,7 @@ Config Config::LoadFromFile(const string & config_path)
     bool res = cfg.ParseFromJson(config_path);
     if(false == res)
         throw runtime_error("File Open Error");
-
-    
-
+    cfg.Validate();    
     return cfg;
 }
 
@@ -26,7 +24,7 @@ bool Config::ParseFromJson(const string & config_path) {
     file >> j;
     
     //  端口
-    m_port = j.value("port", 9007);
+    m_port = j.value("Port", 9007);
     //  日志写入模式
     string logWrite_str = j.value("LogWriteMode", "Sync");
     if("Sync" == logWrite_str) 
@@ -45,9 +43,49 @@ bool Config::ParseFromJson(const string & config_path) {
     string connTrigMode_str = j.value("ConnTrigMode", "LT");
     if("LT" == connTrigMode_str)
         m_connTrigMode = ConnTrigMode::LT;
-    //  
-
+    //  优雅关链接
+    string closeMode_str = j.value("CloseMode", "Immediate");
+    if("Immediate" == closeMode_str)
+        m_closeMode = CloseMode::Immediate;
+    else if("Graceful" == closeMode_str)
+        m_closeMode == CloseMode::GraceFul;
+    //  数据库链接池数量
+    int sqlThreadNum = j.value("SqlThreadNum", 8);
+    m_sqlNum = sqlThreadNum;
+    //  线程池数量
+    int threadNum = j.value("ThreadNum", 8);
+    m_threadNum = threadNum;
+    //  日志是否打开
+    string logStatus_str = j.value("LogStatus", "Open");
+    if("Open" == logStatus_str)
+        m_logStatus = LogStatus::Open;
+    else if("Close" == logStatus_str)
+        m_logStatus = LogStatus::Close;
+    //  并发模型
+    string actorModel_str = j.value("ActorModel", "ProActor");
+    if("ProActor" == actorModel_str)
+        m_actorModel = ActorModel::ProActor;
+    //  数据库名称
+    m_dbName = j.value("DataBaseName", "WebServer");
+    //  数据库用户名
+    m_dbUserName = j.value("DataBaseUserName", "root");
+    //  数据库密码
+    m_dbUserPasswd = j.value("DataBaseUserPwd", "root");
     
-
     return true;
+}
+
+void Config::Validate()
+{
+    //  port检验
+    if(m_port < 1 || m_port > 65535)
+        throw invalid_argument("Port out of Range [1, 65535]");
+    
+    //  数据库链接池检验
+    if(m_sqlNum < 1 || m_sqlNum > 100)
+        throw invalid_argument("SqlThreadNum out of Range [1,100]");
+
+    //  线程池检验
+    if(m_threadNum < 1 || m_threadNum > 100)
+        throw invalid_argument("ThreadNum out of Range [1,100]");
 }
