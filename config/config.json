@@ -1,9 +1,10 @@
 {   
-    "port" : 9005,
+    "Port" : 9005,
     "LogWriteMode": "Sync",
     "TrigMode" : "Listen_fd",
     "ListenTrigMode" : "LT",
     "ConnTrigMode" : "LT",
+    "CloseMode" : "Immediate",
     "db_name" : "webserver",
     "db_userName" : "root",
     "db_userPasswd" : "root"

@@ -40,12 +40,11 @@ private:
     //  并发模型选择，0-ProActor
     ActorModel m_actorModel = ActorModel::ProActor;
     //  数据库名
-    string m_dbName = "webserver";
+    string m_dbName = "WebServer";
     //  数据库用户名
     string m_dbUserName = "root";
     //  数据库用户名密码
     string m_dbUserPasswd = "root";
-    string m_dbName1;
 };
 
 #endif

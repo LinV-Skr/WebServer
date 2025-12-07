@@ -16,4 +16,4 @@
 |     ActorModel，并发模型选择     |        **ProActor**         |
 |     DataBaseName，数据库名称     |        **WebServer**        |
 |  DataBaseUserName，数据库用户名  |          **root**           |
-|         DataBaseUserPwd          |          **root**           |
+|   DataBaseUserPwd，数据库密码    |          **root**           |
