@@ -1,5 +1,5 @@
 {   
-    "port" : 9007,
+    "port" : 9005,
     "LogWriteMode": "Sync",
     "TrigMode" : "Listen_fd",
     "ListenTrigMode" : "LT",

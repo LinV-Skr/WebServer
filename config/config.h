@@ -1,9 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include<string>
 #include<fstream>
 #include<stdexcept>
-#include<string>
 #include "./config_type.h"
 
 using namespace std;
@@ -45,6 +45,7 @@ private:
     string m_dbUserName = "root";
     //  数据库用户名密码
     string m_dbUserPasswd = "root";
+    string m_dbName1;
 };
 
 #endif
