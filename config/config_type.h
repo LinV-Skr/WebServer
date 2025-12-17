@@ -1,6 +1,9 @@
 #ifndef CONFIG_TYPE_H
 #define CONFIG_TYPE_H
 
+//  最大文件描述符
+const int MAX_FD = 65535;
+
 enum class LogWriteMode
 {
     Sync,

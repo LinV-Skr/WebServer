@@ -13,6 +13,50 @@ Config Config::LoadFromFile(const string & config_path)
     return cfg;
 }
 
+int Config::GetServerPort() const {
+    return m_port;
+}
+
+string Config::GetDataBaseUserName() const {
+    return m_dbUserName;
+}
+
+string Config::GetDataBaseUserPwd() const {
+    return m_dbUserPasswd;
+}
+
+string Config::GetDataBaseName() const {
+    return m_dbName;
+}
+
+LogWriteMode Config::GetLogWriteMode() const {
+    return m_logWrite;
+}
+
+CloseMode Config::GetCloseMode() const {
+    return m_closeMode;
+}
+
+TrigMode Config::GetTrigMode() const {
+    return m_trigMode;
+}
+
+int Config::GetSqlNum() const {
+    return m_sqlNum;
+}
+
+int Config::GetThreadNum() const {
+    return m_threadNum;
+}
+
+LogStatus Config::GetLogStatus() const {
+    return m_logStatus;
+}
+
+ActorModel Config::GetActorModel() const {
+    return m_actorModel;
+}
+
 bool Config::ParseFromJson(const string & config_path) {
     //  json文件读入stream流
     ifstream file(config_path);
@@ -75,8 +119,7 @@ bool Config::ParseFromJson(const string & config_path) {
     return true;
 }
 
-void Config::Validate()
-{
+void Config::Validate() {
     //  port检验
     if(m_port < 1 || m_port > 65535)
         throw invalid_argument("Port out of Range [1, 65535]");
@@ -89,3 +132,4 @@ void Config::Validate()
     if(m_threadNum < 1 || m_threadNum > 100)
         throw invalid_argument("ThreadNum out of Range [1,100]");
 }
+

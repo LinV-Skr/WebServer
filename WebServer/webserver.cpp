@@ -8,8 +8,7 @@ WebServer::WebServer()
     //  获取当前工作路径
     size_t size = 256;
     vector<char> buffer(size);
-    if(getcwd(buffer.data(), size) == NULL)
-    {
+    if(getcwd(buffer.data(), size) == NULL) {
         perror("getcwd error");
         exit(-1);
     }
@@ -30,15 +29,14 @@ WebServer::~WebServer()
     m_users_timer = nullptr;
 }
 
-void WebServer::Init(int port, string user, string passwd, string databaseName, int logWrite, 
-                int optLinger, int trigMode, int sqlNum, int threadNum, int closeLog, int actorModel)
+void WebServer::Init(const Config & config)
 {
-    m_port = port;
-    m_database_user = user;
-    m_database_passwd = passwd;
-    m_database_name = databaseName;
-    m_logWrite = logWrite;
-    m_optLinger = optLinger;
+    m_port = config.GetServerPort();
+    m_database_user = config.GetDataBaseUserName();
+    m_database_passwd = config.GetDataBaseUserPwd();
+    m_database_name = config.GetDataBaseName();
+    m_logWrite = config.GetLogWriteMode();
+    m_closeMode = config.GetCloseMode();
     m_trigMode = trigMode;
     m_sqlNum = sqlNum;
     m_threadNum = threadNum;

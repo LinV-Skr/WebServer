@@ -9,9 +9,7 @@
 #include "../http/http_conn.h"
 #include "../timer/lst_timer.h"
 #include "../log/log.h"
-
-//  最大文件描述符
-const int MAX_FD = 65535;
+#include "../config/config.h"
 
 class WebServer
 {
@@ -20,8 +18,7 @@ public:
     ~WebServer();
 
 public:
-    void Init(int port, string user, string passwd, string databaseName, int logWrite, 
-                int optLinger, int trigMode, int sqlNum, int threadNum, int closeLog, int actorModel);
+    void Init(const Config& config);
     void LogWrite();
     void SqlPool();
 
@@ -30,10 +27,10 @@ public:
     int m_port;
 
     //  日志写入方式
-    int m_logWrite;
+    LogWriteMode m_logWrite;
 
     //  优雅关闭连接
-    int m_optLinger;
+    int m_closeMode;
 
     //  触发模式
     int m_trigMode;

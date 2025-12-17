@@ -4,12 +4,13 @@
 
 int main(int argc, char * argv[])
 {
-    //  解析程序运行时的输入参数
     try {
+        //  解析程序运行时的输入参数
         Config cfg = Config::LoadFromFile("/home/linv/LinPro/WebServer/config/config.json");
+        
         //  webserver 初始化
-        //WebServer server;
-        //server.Init();
+        WebServer server;
+        server.Init(cfg);
         
         //  日志
         //server.LogWrite();

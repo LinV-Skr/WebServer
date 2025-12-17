@@ -19,17 +19,13 @@ class util_timer
 {
 public:
     util_timer() : m_prev(NULL), m_next(NULL){}
-
-    //  回调函数
-    void (* cb_func)(client_data *);
-
 public:
+    //  回调函数 - 成员变量
+    void (* cb_func)(client_data *);
     //  结束时间
     time_t m_expire;
-
     //  互相引用，用户数据
     client_data * m_user_data;
-
     //  链表指针
     util_timer * m_prev;
     util_timer * m_next;

@@ -4,6 +4,7 @@
 #include<string>
 #include<fstream>
 #include<stdexcept>
+
 #include "./config_type.h"
 
 using namespace std;
@@ -13,6 +14,18 @@ class Config
 public:
     //  静态工厂方法，从配置文件加载
     static Config LoadFromFile(const string & path);
+    //  Get方法，const，线程安全
+    int GetServerPort() const;
+    string GetDataBaseUserName() const;
+    string GetDataBaseUserPwd() const;
+    string GetDataBaseName() const;
+    LogWriteMode GetLogWriteMode() const;
+    CloseMode GetCloseMode() const;
+    TrigMode GetTrigMode() const;
+    int GetSqlNum() const;
+    int GetThreadNum() const;
+    LogStatus GetLogStatus() const;
+    ActorModel GetActorModel() const;
 
 private:
     Config() = default;
