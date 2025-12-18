@@ -180,23 +180,17 @@ public:
 
 private:
     //  阻塞队列最大大小
-    int m_max_size;
-
+    int m_maxSize;
     //  循环数组
     T * m_arrry;
-
     //  循环数组实际大小
     int m_size;
-
     //  循环数组头指针
     int m_front;
-
     //  循环数组尾指针
     int m_back;
-
     //  互斥变量
     locker m_mutex;
-
     //  条件变量
     cond m_cond;
 };

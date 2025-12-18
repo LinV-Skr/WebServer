@@ -37,23 +37,21 @@ void WebServer::Init(const Config & config)
     m_database_name = config.GetDataBaseName();
     m_logWrite = config.GetLogWriteMode();
     m_closeMode = config.GetCloseMode();
-    m_trigMode = trigMode;
-    m_sqlNum = sqlNum;
-    m_threadNum = threadNum;
-    m_close_log = closeLog;
-    m_actor_mode = actorModel;
+    m_trigMode = config.GetTrigMode();
+    m_sqlNum = config.GetSqlNum();
+    m_threadNum = config.GetThreadNum();
+    m_logStatus = config.GetLogStatus();
+    m_actor_mode = config.GetActorModel();
 }
 
 void WebServer::LogWrite()
 {
-    //  0 日志不关闭
-    if(0 == m_close_log)
+    if(LogStatus::Open == m_logStatus)
     {
-        //  1  日志异步； 0  日志同步
-        if(1 == m_logWrite)
-            Log::GetInstance().Init("./ServerLog", m_close_log, 2000, 800000, 800);
-        else
-            Log::GetInstance().Init("./ServerLog", m_close_log, 2000, 800000, 0);
+        if(LogWriteMode::Async == m_logWrite)
+            Log::GetInstance().Init("./ServerLog", m_logStatus, 2000, 800000, 800);
+        else if(LogWriteMode::Sync == m_logWrite)
+            Log::GetInstance().Init("./ServerLog", m_logStatus, 2000, 800000, 0);
     }
 }
 

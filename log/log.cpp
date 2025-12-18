@@ -6,12 +6,6 @@ Log::Log()
     m_close_log = 0;
     m_log_buff_size = 0;
     m_split_lines = 0;
-
-    memset(m_log_name, 0, sizeof(m_log_name));
-    memset(m_dir_name, 0, sizeof(m_dir_name));
-
-    m_is_async = false;
-
     m_block_queue = nullptr;
     m_fp = nullptr;
     m_log_buf = nullptr;
@@ -30,12 +24,12 @@ Log::~Log()
     }
 }
 
-bool Log::Init(const char * file_name, int close_log, int log_buf_size, int split_lines, int max_queue_size)
+bool Log::Init(string file_name, LogStatus close_log, int log_buf_size, int split_lines, int maxQueueSize)
 {
     //  如果设置了max_queue_size，则设为异步
-    if(1 <= max_queue_size)
+    if(1 <= maxQueueSize)
     {
-        m_is_async = true;
+        m_isAsync = true;
         m_block_queue = new BlockQueue<string>(max_queue_size);
         //  创建线程
         pthread_t tid;

@@ -30,10 +30,10 @@ public:
     LogWriteMode m_logWrite;
 
     //  优雅关闭连接
-    int m_closeMode;
+    CloseMode m_closeMode;
 
     //  触发模式
-    int m_trigMode;
+    TrigMode m_trigMode;
 
     //  数据库链接数目
     int m_sqlNum;
@@ -42,10 +42,10 @@ public:
     int m_threadNum;
 
     //  是否关闭日志
-    int m_close_log;
+    LogStatus m_logStatus;
 
     //  并发模型
-    int m_actor_mode;
+    ActorModel m_actor_mode;
 
     //  数据库
     string m_database_user;
