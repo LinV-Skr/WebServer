@@ -1,6 +1,6 @@
 {   
     "Port" : 9005,
-    "LogWriteMode": "Sync",
+    "LogWriteMode": "Async",
     "TrigMode" : "Listen_fd",
     "ListenTrigMode" : "LT",
     "ConnTrigMode" : "LT",

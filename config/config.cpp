@@ -3,13 +3,15 @@
 
 using json = nlohmann::json;
 
-Config Config::LoadFromFile(const string & config_path)
-{
+Config Config::LoadFromFile(const string & config_path) {
+    //  加载参数
     Config cfg;
     bool res = cfg.ParseFromJson(config_path);
-    if(false == res)
+    if(false == res) {
         throw runtime_error("File Open Error");
-    cfg.Validate();    
+    }
+    //  检验参数
+    cfg.Validate();
     return cfg;
 }
 
@@ -60,59 +62,80 @@ ActorModel Config::GetActorModel() const {
 bool Config::ParseFromJson(const string & config_path) {
     //  json文件读入stream流
     ifstream file(config_path);
-    if(!file.is_open()) 
+    if(!file.is_open()) {
         return false;
-    
-    //  json 解析
+    }
     json j;
     file >> j;
     
     //  端口
     m_port = j.value("Port", 9007);
+
     //  日志写入模式
     string logWrite_str = j.value("LogWriteMode", "Sync");
-    if("Sync" == logWrite_str) 
+    if("Sync" == logWrite_str) {
         m_logWrite = LogWriteMode::Sync;
-    else if("Async" == logWrite_str)
+    }
+    else if("Async" == logWrite_str) {
         m_logWrite = LogWriteMode::Async;
+    }
+        
     //  触发组合模式
     string trigMode_str = j.value("TrigMode", "Listen_fd");
-    if("Listen_fd" == trigMode_str)
+    if("Listen_fd" == trigMode_str) {
         m_trigMode = TrigMode::Listen_fd;
+    }
+        
     //  listen_fd触发模式
     string listenTrigMode_str = j.value("ListenTrigMode", "LT");
-    if("LT" == listenTrigMode_str)
+    if("LT" == listenTrigMode_str) {
         m_listenTrigMode = ListenTrigMode::LT;
+    }
+    
     //  connfd触发模式
     string connTrigMode_str = j.value("ConnTrigMode", "LT");
-    if("LT" == connTrigMode_str)
+    if("LT" == connTrigMode_str) {
         m_connTrigMode = ConnTrigMode::LT;
+    }
+        
     //  优雅关链接
     string closeMode_str = j.value("CloseMode", "Immediate");
-    if("Immediate" == closeMode_str)
+    if("Immediate" == closeMode_str) {
         m_closeMode = CloseMode::Immediate;
-    else if("Graceful" == closeMode_str)
+    }
+    else if("Graceful" == closeMode_str) {
         m_closeMode == CloseMode::GraceFul;
+    }
+        
     //  数据库链接池数量
     int sqlThreadNum = j.value("SqlThreadNum", 8);
     m_sqlNum = sqlThreadNum;
+
     //  线程池数量
     int threadNum = j.value("ThreadNum", 8);
     m_threadNum = threadNum;
+
     //  日志是否打开
     string logStatus_str = j.value("LogStatus", "Open");
-    if("Open" == logStatus_str)
+    if("Open" == logStatus_str) {
         m_logStatus = LogStatus::Open;
-    else if("Close" == logStatus_str)
+    }
+    else if("Close" == logStatus_str) {
         m_logStatus = LogStatus::Close;
+    }
+        
     //  并发模型
     string actorModel_str = j.value("ActorModel", "ProActor");
-    if("ProActor" == actorModel_str)
+    if("ProActor" == actorModel_str) {
         m_actorModel = ActorModel::ProActor;
+    }
+        
     //  数据库名称
     m_dbName = j.value("DataBaseName", "WebServer");
+
     //  数据库用户名
     m_dbUserName = j.value("DataBaseUserName", "root");
+
     //  数据库密码
     m_dbUserPasswd = j.value("DataBaseUserPwd", "root");
     
@@ -121,15 +144,18 @@ bool Config::ParseFromJson(const string & config_path) {
 
 void Config::Validate() {
     //  port检验
-    if(m_port < 1 || m_port > 65535)
+    if(m_port < 1 || m_port > 65535) {
         throw invalid_argument("Port out of Range [1, 65535]");
-    
+    }
+        
     //  数据库链接池检验
-    if(m_sqlNum < 1 || m_sqlNum > 100)
+    if(m_sqlNum < 1 || m_sqlNum > 100) {
         throw invalid_argument("SqlThreadNum out of Range [1,100]");
-
+    }
+        
     //  线程池检验
-    if(m_threadNum < 1 || m_threadNum > 100)
+    if(m_threadNum < 1 || m_threadNum > 100) {
         throw invalid_argument("ThreadNum out of Range [1,100]");
+    }
 }
 

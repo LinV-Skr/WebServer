@@ -18,8 +18,8 @@ public:
     ~WebServer();
 
 public:
-    void Init(const Config& config);
-    void LogWrite();
+    void ParameterInit(const Config& config);
+    void LogWriteInit();
     void SqlPool();
 
 public:

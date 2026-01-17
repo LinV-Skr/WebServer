@@ -1,18 +1,14 @@
 #include "log.h"
 
-Log::Log()
-{
+Log::Log() {
     m_count = 0;
-    m_close_log = 0;
     m_log_buff_size = 0;
-    m_split_lines = 0;
     m_block_queue = nullptr;
     m_fp = nullptr;
     m_log_buf = nullptr;
 }
 
-Log::~Log()
-{
+Log::~Log() {
     delete m_block_queue;
     m_block_queue = nullptr;
 
@@ -24,49 +20,47 @@ Log::~Log()
     }
 }
 
-bool Log::Init(string file_name, LogStatus close_log, int log_buf_size, int split_lines, int maxQueueSize)
-{
-    //  如果设置了max_queue_size，则设为异步
-    if(1 <= maxQueueSize)
-    {
+bool Log::Init(string file_path, LogStatus log_status, int log_buf_size, int log_max_lines, int maxQueueSize, LogWriteMode logWriteMode) {
+    //  异步写，创建线程、阻塞队列
+    if(LogWriteMode::Async == logWriteMode) {
         m_isAsync = true;
-        m_block_queue = new BlockQueue<string>(max_queue_size);
-        //  创建线程
+        m_block_queue = new BlockQueue<string>(maxQueueSize);
         pthread_t tid;
-        //  TODO: 线程回收
         pthread_create(&tid, NULL, Flush_Log_Thread, NULL);
     }
 
-    m_close_log = close_log;
+    //  初始化日志参数
+    log_status_ =  log_status;
     m_log_buff_size = log_buf_size;
     m_log_buf = new char[log_buf_size];
-    memset(m_log_buf, '\0', m_log_buff_size);
-    m_split_lines = split_lines;
+    memset(m_log_buf, 0x00, m_log_buff_size);
+    log_max_lines_ = log_max_lines;
 
-    //  将./ServeLog类型的文件目录转换为带日期的
-    time_t t_time = time(NULL);
+    //  设置文件输出名称
+    time_t t_time = time(nullptr);
     struct tm t_tm;
-    //  localtime函数存在线程安全问题
     localtime_r(&t_time, &t_tm);
     m_today = t_tm.tm_mday;
-
-    const char * p_file_name = strrchr(file_name, '/');
-    char log_full_name[256] = {0};
-    if(NULL == p_file_name)
-    {
-        snprintf(log_full_name, sizeof(log_full_name), "%d_%02d_%02d_%s", t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
-    }
-    else
-    {
-        snprintf(m_log_name, sizeof(m_log_name), "%s", p_file_name + 1);
-        //  多加1是因为拷贝'\0'
-        const int dir_name_len = p_file_name + 1 - file_name + 1;
-        snprintf(m_dir_name, dir_name_len, "%s", file_name);
-        snprintf(log_full_name, sizeof(log_full_name), "%s_%d_%02d_%02d_%s", m_dir_name, t_tm.tm_year + 1900, t_tm.tm_mon, t_tm.tm_mday, file_name);
-    }
-    m_fp = fopen(log_full_name, "a");
-    if(NULL == m_fp)
+    //  获取路径中的文件、路径
+    size_t pos = file_path.rfind('/');
+    if(pos == string::npos) {
+        perror("LogFileNameError");
         return false;
+    }
+    string file_name = file_path.substr(pos+1);
+    string dir_path = file_path.substr(0, pos + 1);
+    //  文件名称添加日期
+    char data_prefix[32];
+    memset(data_prefix, 0x00, sizeof(data_prefix));
+    snprintf(data_prefix, sizeof(data_prefix), "%d_%02d_%02d_", t_tm.tm_year + 1900 , t_tm.tm_mon + 1, t_tm.tm_mday);
+    //  重新组成新的文件名
+    string log_file_name = dir_path + data_prefix + file_name;
+
+    //  打开文件
+    m_fp = fopen(log_file_name.c_str(), "a+");
+    if(m_fp == NULL) {
+        return false;
+    }
 
     return true;
 }

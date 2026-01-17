@@ -2,25 +2,22 @@
 #include"./WebServer/webserver.h"
 #include<iostream>
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
     try {
-        //  解析参数
-        Config cfg = Config::LoadFromFile("/home/linv/LinPro/WebServer/config/config.json");
-        
-        //  webserver 初始化
+        //  解析、加载配置文件
+        Config cfg = Config::LoadFromFile(config_file_path);
+        //  加载WebServer
         WebServer server;
-        server.Init(cfg);
+        //  初始化WebServer参数
+        server.ParameterInit(cfg);
+        //  日志初始化
+        server.LogWriteInit();
+        //  初始化数据库
         
-        //  日志 初始化
-        server.LogWrite();
-
-        //  数据库
     }
     catch(const std::exception & e) {
         std::cerr << "Config Error : " << e.what() << std::endl;
         return -1;
     }
-
     return 0;
 }
