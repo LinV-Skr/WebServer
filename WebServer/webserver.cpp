@@ -4,13 +4,8 @@ WebServer::WebServer() {
 }
 
 //  指针释放后，指控防止垂悬，防止双重释放
-WebServer::~WebServer()
-{
-    delete [] m_users;
-    m_users = nullptr;
-    m_root_path = nullptr;
-    delete [] m_users_timer;
-    m_users_timer = nullptr;
+WebServer::~WebServer() {
+    
 }
 
 void WebServer::ParameterInit(const Config & config) {
@@ -21,8 +16,8 @@ void WebServer::ParameterInit(const Config & config) {
     m_logWrite = config.GetLogWriteMode();
     m_closeMode = config.GetCloseMode();
     m_trigMode = config.GetTrigMode();
-    m_sqlNum = config.GetSqlNum();
-    m_threadNum = config.GetThreadNum();
+    m_sqlNum = config.GetSqlPoolConnNum();
+    m_threadNum = config.GetThreadPoolThreadNum();
     m_logStatus = config.GetLogStatus();
     m_actor_mode = config.GetActorModel();
 }
@@ -33,8 +28,8 @@ void WebServer::LogWriteInit() {
     }
 }
 
-void WebServer::SqlPool()
-{
+void WebServer::SqlPoolInit() {
     //  初始化数据库链接池
+    m_mysql_conn_pool = Mysql_Connection_Pool::GetInstance();
     
 }
