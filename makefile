@@ -8,7 +8,7 @@ else
 endif
 
 server: main.cpp ./config/config.cpp ./WebServer/webserver.cpp ./log/log.cpp ./mysql/sql_connection_pool.cpp
-	$(CXX) -o server $^ $(CXXFLAGS) -lpthread -std=c++11
+	$(CXX) -o server $^ $(CXXFLAGS) -lpthread -lmysqlclient -std=c++11 
 
 clean:
 	rm -rf server

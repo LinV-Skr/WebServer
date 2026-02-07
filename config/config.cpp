@@ -93,10 +93,10 @@ bool Config::ParseFromJson(const string & config_file_path) {
     else if("Graceful" == closeMode_str) m_closeMode == CloseMode::GraceFul;
     //  解析 - 数据库链接池数量
     int sqlThreadNum = j.value("SqlThreadNum", 8);
-    m_sqlNum = sqlThreadNum;
+    m_sqlPool_connNum = sqlThreadNum;
     //  解析 - 线程池数量
     int threadNum = j.value("ThreadNum", 8);
-    m_threadNum = threadNum;
+    m_threadPool_threadNum = threadNum;
     //  解析 - 日志是否打开
     string logStatus_str = j.value("LogStatus", "Open");
     if("Open" == logStatus_str) m_logStatus = LogStatus::Open;
@@ -119,8 +119,8 @@ void Config::Validate() {
     //  port检验
     if(m_port < 1 || m_port > 65535) throw invalid_argument("Port out of Range [1, 65535]");
     //  数据库链接池检验
-    if(m_sqlNum < 1 || m_sqlNum > 100) throw invalid_argument("SqlThreadNum out of Range [1,100]");
+    if(m_sqlPool_connNum < 1 || m_sqlPool_connNum > 100) throw invalid_argument("SqlThreadNum out of Range [1,100]");
     //  线程池检验
-    if(m_threadNum < 1 || m_threadNum > 100) throw invalid_argument("ThreadNum out of Range [1,100]");
+    if(m_threadPool_threadNum < 1 || m_threadPool_threadNum > 100) throw invalid_argument("ThreadNum out of Range [1,100]");
 }
 

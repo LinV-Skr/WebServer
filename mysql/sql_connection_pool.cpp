@@ -24,7 +24,7 @@ void Mysql_Connection_Pool::Init(const std::string url, const std::string userNa
         conn = mysql_init(conn);
         //  安全检查 - 初始化失败
         if(NULL == conn) {
-            LOG_ERROR();
+            
         }
     }
 }

@@ -83,6 +83,10 @@ LogStatus Log::GetLogStatus() const {
     return m_log_status;
 }
 
-void Log::WriteLog(const char *format, ...) {
-    
+//  TODO：实现函数
+void Log::WriteLog(int level, const char *format, ...) {
+    //  判断日志等级
+    //  判断是否创建文件
+    //  整理写入内容
+    //  写入 - 判断异步写还是直接写入
 }

@@ -4,6 +4,7 @@
 #include "../lock/locker.h"
 
 #include <sys/time.h>
+#include <stdlib.h>
 
 //  循环数组实现的阻塞队列
 //  线程安全，每个操作前都加互斥锁，操作完成后，再解锁

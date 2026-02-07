@@ -39,8 +39,9 @@ public:
 
     /**
      * 函数功能：日志缓冲区添加日志
+     * 输入参数：level - 日志等级， format - 写入内容
     */
-    void WriteLog(const char * format, ...);
+    void WriteLog(int level, const char * format, ...);
 
 private:
     /**
@@ -85,6 +86,6 @@ private:
     int m_today;
 };
 
-#define LOG_ERROR(format,...) if(LogStatus::Open == Log::GetInstance().GetLogStatus())  
+#define LOG_ERROR(level, format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(); } while(0);
 
 #endif
