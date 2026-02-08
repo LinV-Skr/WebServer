@@ -17,6 +17,8 @@ void Mysql_Connection_Pool::Init(const std::string url, const std::string userNa
     m_maxConn = maxConn;
     m_logStatus = logStatus;
 
+    LOG_ERROR("MysqlConnError");
+
     //  根据输入参数，链接数据库
     for(int i = 0; i < m_maxConn; i++) {
         //  数据库链接句柄初始化
@@ -24,7 +26,7 @@ void Mysql_Connection_Pool::Init(const std::string url, const std::string userNa
         conn = mysql_init(conn);
         //  安全检查 - 初始化失败
         if(NULL == conn) {
-            
+            LOG_ERROR("MysqlConnError");
         }
     }
 }

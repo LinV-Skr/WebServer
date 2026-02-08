@@ -13,6 +13,7 @@ int main(int argc, char * argv[]) {
         //  日志初始化
         server.LogWriteInit();
         //  初始化数据库
+        server.SqlPoolInit();
     }
     catch(const std::exception & e) {
         std::cerr << "Config Error : " << e.what() << std::endl;

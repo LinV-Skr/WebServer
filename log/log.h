@@ -5,6 +5,7 @@
 #include<cstring>
 #include<pthread.h>
 #include<stdio.h>
+#include<stdarg.h>
 
 #include"./block_queue.h"
 #include"../config/config.h"
@@ -79,13 +80,16 @@ private:
     //  日志缓冲区大小
     int m_log_buff_size;
     //  日志缓冲区
-    char * m_log_buf;
+    char * m_log_buff;
     //  日志最大行数
-    int log_max_lines_ = 0;
+    int m_log_max_lines = 0;
     //  日志按天分类，记录当前是哪一天
     int m_today;
 };
 
-#define LOG_ERROR(level, format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(); } while(0);
+#define LOG_DEBUG(format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(0, format, ##__VA_ARGS__); } while(0);
+#define LOG_INFO(format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(1, format, ##__VA_ARGS__); } while(0);
+#define LOG_WARN(format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(2, format, ##__VA_ARGS__); } while(0);
+#define LOG_ERROR(format,...) do{ if(LogStatus::Open == Log::GetInstance().GetLogStatus())  Log::GetInstance().WriteLog(3, format, ##__VA_ARGS__); } while(0);
 
 #endif

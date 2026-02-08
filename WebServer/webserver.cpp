@@ -16,7 +16,7 @@ void WebServer::ParameterInit(const Config & config) {
     m_logWrite = config.GetLogWriteMode();
     m_closeMode = config.GetCloseMode();
     m_trigMode = config.GetTrigMode();
-    m_sqlNum = config.GetSqlPoolConnNum();
+    m_sql_conn_num = config.GetSqlPoolConnNum();
     m_threadNum = config.GetThreadPoolThreadNum();
     m_logStatus = config.GetLogStatus();
     m_actor_mode = config.GetActorModel();
@@ -31,5 +31,5 @@ void WebServer::LogWriteInit() {
 void WebServer::SqlPoolInit() {
     //  初始化数据库链接池
     m_mysql_conn_pool = Mysql_Connection_Pool::GetInstance();
-    
+    m_mysql_conn_pool->Init("localhost", m_database_user, m_database_passwd, m_database_name, 3306, m_sql_conn_num, m_logStatus);
 }

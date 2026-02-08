@@ -4,6 +4,7 @@
 #include<mysql/mysql.h>
 
 #include"../config/config_contains.h"
+#include"../log/log.h"
 
 class Mysql_Connection_Pool {
 public:

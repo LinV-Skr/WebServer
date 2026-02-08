@@ -46,7 +46,7 @@ public:
     //  触发模式
     TrigMode m_trigMode;
     //  数据库链接数目
-    int m_sqlNum;
+    int m_sql_conn_num;
     //  线程池数目
     int m_threadNum;
     //  是否关闭日志
