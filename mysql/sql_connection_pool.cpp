@@ -27,6 +27,13 @@ void Mysql_Connection_Pool::Init(const std::string url, const std::string userNa
         //  安全检查 - 初始化失败
         if(NULL == conn) {
             LOG_ERROR("MysqlConnError");
+            throw 
         }
+        //  数据库连接
+        conn = mysql_real_connect(conn, url.c_str(), userName.c_str(), userPasswd.c_str(), dataBaseName.c_str(), port, NULL, 0);
+        if(NULL == conn) {
+
+        }
+        //  链接成功后，更新链接池
     }
 }
