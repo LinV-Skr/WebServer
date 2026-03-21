@@ -11,5 +11,5 @@
     "ActorModel" : "ProActor",
     "DataBaseName" : "WebServer",
     "DataBaseUserName" : "root",
-    "DataBaseUserPwd" : "root"
+    "DataBaseUserPwd" : "WebServer12345@@"
 }

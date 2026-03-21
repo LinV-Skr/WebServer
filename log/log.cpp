@@ -131,7 +131,7 @@ void Log::WriteLog(int level, const char *format, ...) {
     m_mutex.unlock();
 
     //  写入 - 判断异步写还是直接写入
-    if(m_isAsync && ! m_block_queue->IsFull()) {
+    if(m_isAsync && !m_block_queue->IsFull()) {
         m_block_queue->Push(string(m_log_buff));
     }
     else {
