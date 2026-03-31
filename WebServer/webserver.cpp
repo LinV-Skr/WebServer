@@ -1,11 +1,14 @@
 #include "webserver.h"
 
-WebServer::WebServer() {
+WebServer::WebServer() 
+{
+    m_http_conn = new http_conn[MAX_FD];
 }
 
 //  指针释放后，指控防止垂悬，防止双重释放
 WebServer::~WebServer() {
-    
+    delete m_mysql_conn_pool;
+    m_mysql_conn_pool = nullptr;
 }
 
 void WebServer::ParameterInit(const Config & config) {
@@ -32,4 +35,6 @@ void WebServer::SqlPoolInit() {
     //  初始化数据库链接池
     m_mysql_conn_pool = Mysql_Connection_Pool::GetInstance();
     m_mysql_conn_pool->Init("localhost", m_database_user, m_database_passwd, m_database_name, 3306, m_sql_conn_num, m_logStatus);
+    //  初始化http实例，用户名 - 密码
+    m_http_conn->InitUserInfoFromMysql(m_mysql_conn_pool);
 }

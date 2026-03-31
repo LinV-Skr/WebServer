@@ -18,14 +18,15 @@ public:
     /**
      * 函数功能：初始化数据库链接池单例
     */
-    void Init(const std::string url, const std::string userName, const std::string userPasswd, const std::string dataBaseName, const int port, const int maxConn, const LogStatus logStatus);
-    
+    void Init(const std::string url, const std::string userName, const std::string userPasswd, 
+            const std::string dataBaseName, const int port, const int maxConn, const LogStatus logStatus);
     /**
      * 函数功能：获取数据库链接
      * 返回值：数据库链接
     */
     MYSQL * GetConnection();
-
+private:
+    Mysql_Connection_Pool();
 private:
     //  空闲数据库连接 - 信号量
     sem m_sem_emptyLink;

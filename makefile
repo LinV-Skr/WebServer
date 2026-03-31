@@ -7,7 +7,7 @@ else
 	CXXFLAGS += -O2
 endif
 
-server: main.cpp ./config/config.cpp ./WebServer/webserver.cpp ./log/log.cpp ./mysql/sql_connection_pool.cpp
+server: main.cpp ./config/config.cpp ./WebServer/webserver.cpp ./log/log.cpp ./mysql/sql_connection_pool.cpp ./http/http_conn.cpp
 	$(CXX) -o server $^ $(CXXFLAGS) -lpthread -lmysqlclient -std=c++11 
 
 clean:

@@ -16,7 +16,6 @@ void Mysql_Connection_Pool::Init(const std::string url, const std::string userNa
     m_port = port;
     m_maxConn = maxConn;
     m_logStatus = logStatus;
-
     //  根据输入参数，链接数据库
     for(int i = 0; i < m_maxConn; i++) {
         //  数据库链接句柄初始化
@@ -64,4 +63,9 @@ MYSQL * Mysql_Connection_Pool::GetConnection() {
     m_lock.unlock();
 
     return res;
+}
+
+Mysql_Connection_Pool::Mysql_Connection_Pool()
+{
+    m_free_conn_num = 0;
 }

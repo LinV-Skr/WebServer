@@ -58,7 +58,7 @@ public:
     string m_database_passwd;
     string m_database_name;
     //  http连接用户
-    http_conn * m_users;
+    http_conn * m_http_conn;
     //  webserver的root工作目录
     string m_root_path;
     //  定时器相关

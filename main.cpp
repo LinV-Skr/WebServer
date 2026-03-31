@@ -14,6 +14,7 @@ int main(int argc, char * argv[]) {
         server.LogWriteInit();
         //  初始化数据库
         server.SqlPoolInit();
+        //  初始化线程池
     }
     catch(const std::exception & e) {
         std::cerr << "Config Error : " << e.what() << std::endl;
